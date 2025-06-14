@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animal Classifier</title>
+   
+   <style>
+body {
+    background-image: url("{{ url_for('static', filename='animals.png') }}") ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 95vh;
+    margin: 0;
+    color:white;
+}
+.main{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height:100vh;
+
+    
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    background-color:transparent;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+#submit{
+    background-color: green;
+    padding: 10px;
+    border-radius: 10px;
+    color:white;
+    width:150px
+}
+.heads{
+    text-align: center;
+}
+.mainhead{
+    margin-bottom:0px;
+}
+h3{
+    margin-top: 0px;
+}
+#confidenceBox {
+         display: none; 
+        /* margin-top: 10px; */
+        width:190px;
+        margin: 0px;
+    }
+    #showBtn{
+         background-color: rgb(55, 14, 168);
+    padding: 10px;
+   
+    border-radius: 10px;
+    color:white;
+    width:250px;
+    }
+     p{
+         background-color: rgb(55, 14, 168);
+          border-radius: 10px;
+        text-align: center;
+        color:white;
+        padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0px;
+    width:250px
+    
+     }  
+     .det{
+        text-align: center;
+     }
+      #fileup{
+        border:1px solid white;
+      }
+      h2{
+        color:white;
+        font-weight: bolder;
+       padding: 10px;
+      }
+      .one{
+         background-color: transparent;
+         border:1px solid white;
+         text-align: center;
+         border-radius:8px ;
+         margin-bottom: 20px;
+         
+         
+        
+      }
+      .class{
+        color:rgb(249, 248, 250);
+        margin: 0px;
+
+      }
+      /* span{
+        color: rgb(7, 241, 19);
+      
+        font-weight: bolder;
+      } */
+    
+</style>
+
+    
+</head>
+<body>
+    <div class="main">
+        <div class="heads">
+    <h2 class="mainhead">CNN-Based Animal Recognition App</h2>
+    <h3 class="mainhead">Cat vs Dog vs Snake</h3>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <input id="fileup" type="file" name="file" required><br><br>
+        <input id="submit" type="submit" value="Predict">
+    </form>
+    <div class="det">
+    {% if prediction %}
+    <div class="one">
+        <h2 class="class">Belongs to <span> class of {{ prediction }}</span> </h2>
+    </div>
+    <div class="two">
+         <button id="showBtn" onclick="showConfidence()">Click Me</button>
+    </div>
+            <!-- Hidden Confidence Value -->
+            <div id="confidenceBox">
+                <p>I'm {{ confidence }}% sure </p>
+            </div>
+        <!-- <p>Confidence: {{ confidence }}%</p> -->
+    {% endif %}
+    </div>
+
+     <script>
+        function showConfidence() {
+            document.getElementById('confidenceBox').style.display = 'block';
+            document.getElementById('showBtn').style.display = 'none';
+        }
+    </script>
+    </div>
+</body>
+</html>

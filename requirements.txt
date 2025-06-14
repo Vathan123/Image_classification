@@ -1,0 +1,8 @@
+flask
+requests
+fastapi
+tensorflow
+pillow
+uvicorn
+numpy
+gunicorn
