@@ -1,7 +1,8 @@
-flask
+Flask==3.0.2
 requests
 fastapi
 tensorflow
+tensorflow==2.16.1
 pillow
 uvicorn
 numpy
