@@ -5,9 +5,22 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 from PIL import Image
 import io
+import os
+import gdown
+from tensorflow.keras.models import load_model
+
+MODEL_DIR = "model"
+MODEL_PATH = os.path.join(MODEL_DIR, "model.h5")
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model...")
+    url = "https://drive.google.com/uc?id=184B4sZiOg23lW7MhfP11Moq2cuSTYvoz"  # replace with your own
+    os.makedirs(MODEL_DIR, exist_ok=True)
+    gdown.download(url, MODEL_PATH, quiet=False)
 
 # Load the trained CNN model
-model = load_model("model.h5")
+model = load_model(MODEL_PATH)
+
 
 # Define class labels in the order used during training
 class_labels = ['cats', 'dogs', 'snakes']
