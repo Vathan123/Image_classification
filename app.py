@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-FASTAPI_URL = "http://127.0.0.1:8000/predict"  # Your FastAPI endpoint
+api_url = "http://127.0.0.1:8000/predict"  # the backend link
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -13,7 +13,7 @@ def index():
         file = request.files["file"]
         if file:
             files = {"file": (file.filename, file.stream, file.mimetype)}
-            response = requests.post(FASTAPI_URL, files=files)
+            response = requests.post(api_url, files=files)
             print(response)
             if response.status_code == 200:
                 result = response.json()
