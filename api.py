@@ -9,46 +9,47 @@ import os
 import gdown
 from tensorflow.keras.models import load_model
 
-MODEL_DIR = "model"
-MODEL_PATH = os.path.join(MODEL_DIR, "model.h5")
+model_dir = "model"
+model_path = os.path.join(model_dir, "model.h5")
 
-if not os.path.exists(MODEL_PATH):
+#As model.h5 file too big, so i have uploaded in the drive and downloading here.
+if not os.path.exists(model_path):
     print("Downloading model...")
-    url = "https://drive.google.com/uc?id=184B4sZiOg23lW7MhfP11Moq2cuSTYvoz"  # replace with your own
-    os.makedirs(MODEL_DIR, exist_ok=True)
-    gdown.download(url, MODEL_PATH, quiet=False)
+    url = "https://drive.google.com/uc?id=184B4sZiOg23lW7MhfP11Moq2cuSTYvoz" 
+    os.makedirs(model_dir, exist_ok=True)
+    gdown.download(url, model_path, quiet=False)
 
-# Load the trained CNN model
-model = load_model(MODEL_PATH)
+# Loading the trained  model
+model = load_model(model_path)
 
 
-# Define class labels in the order used during training
-class_labels = ['cats', 'dogs', 'snakes']
 
-# Create the FastAPI app
+labels = ['cats', 'dogs', 'snakes']
+
+# Create the fastapi app
 app = FastAPI(title="Animal Image Classifier API")
 
-# Prediction endpoint
+#actual predition root
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     try:
-        # Read and open the image
+        # Read and open the image using read()
         contents = await file.read()
         img = Image.open(io.BytesIO(contents)).convert('RGB')
-        img = img.resize((224, 224))  # Resize to match model input
+        img = img.resize((224, 224))  # Resize to  dimenstion (224x224)
 
         # Preprocess image
         img_array = image.img_to_array(img)
         img_array = np.expand_dims(img_array, axis=0)
-        img_array = img_array / 255.0  # Same normalization as training
+        img_array = img_array / 255.0  #  normalization 
 
-        # Make prediction
+        #  predictions
         predictions = model.predict(img_array)
         predicted_index = np.argmax(predictions)
-        predicted_class = class_labels[predicted_index]
+        predicted_class = labels[predicted_index]
         confidence = float(np.max(predictions))
 
-        # Return result
+       
         return {
             "predicted_class": predicted_class,
             "confidence": round(confidence * 100, 2)
