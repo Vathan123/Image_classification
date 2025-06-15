@@ -6,3 +6,4 @@ pillow
 uvicorn
 numpy
 gunicorn
+gdown
